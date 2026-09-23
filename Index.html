@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Proxy</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #111827;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      width: min(700px, 92%);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: #9ca3af;
+      margin-bottom: 30px;
+    }
+
+    .box {
+      background: #1f2937;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      border: 0;
+      border-radius: 10px;
+      background: #374151;
+      color: white;
+      font-size: 16px;
+      outline: none;
+      margin-bottom: 12px;
+    }
+
+    input::placeholder {
+      color: #9ca3af;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      border: 0;
+      border-radius: 10px;
+      background: #2563eb;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    #message {
+      margin-top: 15px;
+      color: #9ca3af;
+      min-height: 20px;
+    }
+
+    .footer {
+      margin-top: 25px;
+      color: #6b7280;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>My Proxy</h1>
+
+    <div class="description">
+      Enter a URL to continue
+    </div>
+
+    <div class="box">
+
+      <input
+        id="url"
+        type="url"
+        placeholder="https://example.com"
+        autocomplete="off"
+      >
+
+      <button onclick="openProxy()">
+        Open
+      </button>
+
+      <div id="message"></div>
+
+    </div>
+
+    <div class="footer">
+      My Proxy
+    </div>
+
+  </div>
+
+  <script>
+    function openProxy() {
+      const input = document.getElementById("url");
+      const message = document.getElementById("message");
+
+      let url = input.value.trim();
+
+      if (!url) {
+        message.textContent = "URLを入力してください。";
+        return;
+      }
+
+      if (!/^https?:\/\//i.test(url)) {
+        url = "https://" + url;
+      }
+
+      message.textContent = "接続しています…";
+
+      /*
+       * サーバー側のProxyエンドポイント。
+       * server.jsを作ったらここを接続する。
+       */
+      const proxyUrl =
+        "/proxy?url=" + encodeURIComponent(url);
+
+      window.location.href = proxyUrl;
+    }
+  </script>
+
+</body>
+</html>
